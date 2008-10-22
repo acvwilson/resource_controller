@@ -55,7 +55,7 @@ module ResourceController
 
           destroy do
             flash "Successfully removed!"
-            wants.xml {render :xml => objects}
+            wants.xml {render :xml => object}
           end
           
           class << self
