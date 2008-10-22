@@ -29,33 +29,33 @@ module ResourceController
     private
       def self.init_default_actions(klass)
         klass.class_eval do
-          index.wants.xml {render :xml => collection}
-          edit.wants.xml {render :xml => object}
-          new_action.wants.xml {render :xml => object}
+          index.wants.xml {render :xml => collection.to_xml(:include => include_params)}
+          edit.wants.xml {render :xml => object.to_xml(:include => include_params)}
+          new_action.wants.xml {render :xml => object.to_xml(:include => include_params)}
 
           show do
-            wants.xml {render :xml => object}
+            wants.xml {render :xml => object.to_xml(:include => include_params)}
 
-            failure.wants.xml {render :xml => object}
+            failure.wants.xml {render :xml => object.to_xml(:include => include_params)}
           end
 
           create do
             flash "Successfully created!"
-            wants.xml {render :xml => object}
+            wants.xml {render :xml => object.to_xml(:include => include_params)}
 
-            failure.wants.xml {render :xml => object}
+            failure.wants.xml {render :xml => object.to_xml(:include => include_params)}
           end
 
           update do
             flash "Successfully updated!"
-            wants.xml {render :xml => object}
+            wants.xml {render :xml => object.to_xml(:include => include_params)}
 
-            failure.wants.xml {render :xml => object}
+            failure.wants.xml {render :xml => object.to_xml(:include => include_params)}
           end
 
           destroy do
             flash "Successfully removed!"
-            wants.xml {render :xml => object}
+            wants.xml {render :xml => object.to_xml(:include => include_params)}
           end
           
           class << self
