@@ -29,33 +29,33 @@ module ResourceController
     private
       def self.init_default_actions(klass)
         klass.class_eval do
-          index.wants.html
-          edit.wants.html
-          new_action.wants.html
+          index.wants.xml {render :xml => collection}
+          edit.wants.xml {render :xml => object}
+          new_action.wants.xml {render :xml => object}
 
           show do
-            wants.html
+            wants.xml {render :xml => object}
 
-            failure.wants.html { render :text => "Member object not found." }
+            failure.wants.xml {render :xml => object}
           end
 
           create do
             flash "Successfully created!"
-            wants.html { redirect_to object_url }
+            wants.xml {render :xml => object}
 
-            failure.wants.html { render :action => "new" }
+            failure.wants.xml {render :xml => object}
           end
 
           update do
             flash "Successfully updated!"
-            wants.html { redirect_to object_url }
+            wants.xml {render :xml => object}
 
-            failure.wants.html { render :action => "edit" }
+            failure.wants.xml {render :xml => object}
           end
 
           destroy do
             flash "Successfully removed!"
-            wants.html { redirect_to collection_url }
+            wants.xml {render :xml => objects}
           end
           
           class << self
