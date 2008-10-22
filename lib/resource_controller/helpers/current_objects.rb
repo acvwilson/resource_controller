@@ -14,7 +14,7 @@ module ResourceController
         # In order to customize the way the collection is fetched, to add something like pagination, for example, override this method.
         #
         def collection
-          end_of_association_chain.find(:all, :include => include_params)
+          end_of_association_chain.find(:all, include_statement)
         end
     
         # Returns the current param.
@@ -29,8 +29,8 @@ module ResourceController
         
         # Default is nothing but can be overridden to include object's associations
         # This include params is included in the xml response by default
-        def include_params
-          []
+        def include_statement
+          {}
         end
   
         # Used to fetch the current member object in all of the singular methods that operate on an existing member.
@@ -45,7 +45,7 @@ module ResourceController
         #   end
         #
         def object
-          @object ||= end_of_association_chain.find(param, :include => include_params) unless param.nil?
+          @object ||= end_of_association_chain.find(param, include_statement) unless param.nil?
           @object
         end
     

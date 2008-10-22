@@ -29,33 +29,33 @@ module ResourceController
     private
       def self.init_default_actions(klass)
         klass.class_eval do
-          index.wants.xml {render :xml => collection.to_xml(:include => include_params)}
-          edit.wants.xml {render :xml => object.to_xml(:include => include_params)}
-          new_action.wants.xml {render :xml => object.to_xml(:include => include_params)}
+          index.wants.xml {render :xml => collection.to_xml(include_statement)}
+          edit.wants.xml {render :xml => object.to_xml(include_statement)}
+          new_action.wants.xml {render :xml => object.to_xml(include_statement)}
 
           show do
-            wants.xml {render :xml => object.to_xml(:include => include_params)}
+            wants.xml {render :xml => object.to_xml(include_statement)}
 
-            failure.wants.xml {render :xml => object.to_xml(:include => include_params)}
+            failure.wants.xml {render :xml => object.to_xml(include_statement)}
           end
 
           create do
             flash "Successfully created!"
-            wants.xml {render :xml => object.to_xml(:include => include_params)}
+            wants.xml {render :xml => object.to_xml(include_statement)}
 
-            failure.wants.xml {render :xml => object.to_xml(:include => include_params)}
+            failure.wants.xml {render :xml => object.to_xml(include_statement)}
           end
 
           update do
             flash "Successfully updated!"
-            wants.xml {render :xml => object.to_xml(:include => include_params)}
+            wants.xml {render :xml => object.to_xml(include_statement)}
 
-            failure.wants.xml {render :xml => object.to_xml(:include => include_params)}
+            failure.wants.xml {render :xml => object.to_xml(include_statement)}
           end
 
           destroy do
             flash "Successfully removed!"
-            wants.xml {render :xml => object.to_xml(:include => include_params)}
+            wants.xml {render :xml => object.to_xml(include_statement)}
           end
           
           class << self
