@@ -51,8 +51,8 @@ module ResourceController
         def object
           if !param.nil? && !include_statement.blank?
             @object ||= end_of_association_chain.find(param, include_statement) 
-          elsif param.nil?
-            @object ||= end_of_association_chain.find(param, include_statement) 
+          elsif !param.nil?
+            @object ||= end_of_association_chain.find(param) 
           end
             
           @object
