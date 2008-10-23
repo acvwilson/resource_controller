@@ -14,7 +14,11 @@ module ResourceController
         # In order to customize the way the collection is fetched, to add something like pagination, for example, override this method.
         #
         def collection
-          end_of_association_chain.find(:all, include_statement)
+          if include_statement.blank? 
+            end_of_association_chain.find(:all)
+          else
+            end_of_association_chain.find(:all, include_statement)
+          end
         end
     
         # Returns the current param.
@@ -45,7 +49,12 @@ module ResourceController
         #   end
         #
         def object
-          @object ||= end_of_association_chain.find(param, include_statement) unless param.nil?
+          if !param.nil? && !include_statement.blank?
+            @object ||= end_of_association_chain.find(param, include_statement) 
+          elsif param.nil?
+            @object ||= end_of_association_chain.find(param, include_statement) 
+          end
+            
           @object
         end
     
