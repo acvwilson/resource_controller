@@ -30,11 +30,11 @@ module ResourceController
         # In order to customize the way the collection is fetched, to add something like pagination, for example, override this method.
         def collection
           if !include_statement.blank? && !object_params.blank?
-            end_of_association_chain.find(:all, include_statement.merge(object_params.symbolize_keys))
+            end_of_association_chain.find(:all, include_statement.merge(object_params))
           elsif !include_statement.blank?
             end_of_association_chain.find(:all, include_statement)
           elsif !object_params.blank?
-            end_of_association_chain.find(:all, object_params.symbolize_keys)
+            end_of_association_chain.find(:all, object_params)
           else
             end_of_association_chain.find(:all)
           end
@@ -50,7 +50,8 @@ module ResourceController
         # Default is nothing but can be overridden to include object's associations
         # This include params is included in the xml response by default
         def include_statement
-          {}
+          (!object_params.blank? && !object_params[:include].blank?) ? 
+             {:include => [object_params[:include]].flatten.map(&:to_sym)} : {}
         end
     
         # Used internally to load the member object in to an instance variable @#{model_name} (i.e. @post)
@@ -67,7 +68,7 @@ module ResourceController
   
         # Returns the form params.  Defaults to params[model_name] (i.e. params["post"])
         def object_params
-          params["#{object_name}"]
+          params["#{object_name}"].symbolize_keys unless params[object_name.to_s].blank?
         end
     
         # Builds the object, but doesn't save it, during the new, and create action.
