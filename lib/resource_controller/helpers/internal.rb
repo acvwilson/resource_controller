@@ -75,6 +75,26 @@ module ResourceController
             instance_eval &block unless block.nil?
           end
         end 
+        
+        def convert_to_sym(input)
+          if input.is_a?(Symbol)
+            input
+          elsif input.is_a?(String)
+            input.to_sym
+          elsif input.is_a?(Hash)
+            input.inject({}) { |hash,(key,value)| hash[key.to_sym] = value.to_sym; hash }
+          elsif input.is_a?(Array)
+            input.map do |element|
+              if element.is_a?(Symbol)
+                element
+              elsif element.is_a?(String)
+                element.to_sym
+              elsif element.is_a?(Hash)
+                element.inject({}) { |hash,(key,value)| hash[key.to_sym] = value.to_sym; hash }
+              end
+            end
+          end
+        end
     end
   end
 end

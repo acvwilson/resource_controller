@@ -30,7 +30,7 @@ module ResourceController
         # In order to customize the way the collection is fetched, to add something like pagination, for example, override this method.
         def collection
           if !include_statement.blank? && !object_params.blank?
-            end_of_association_chain.find(:all, include_statement.merge(object_params))
+            end_of_association_chain.find(:all, object_params.merge(include_statement))
           elsif !include_statement.blank?
             end_of_association_chain.find(:all, include_statement)
           elsif !object_params.blank?
@@ -51,7 +51,7 @@ module ResourceController
         # This include params is included in the xml response by default
         def include_statement
           (!object_params.blank? && !object_params[:include].blank?) ? 
-             {:include => [object_params[:include]].flatten.map(&:to_sym)} : {}
+             {:include => convert_to_sym(object_params[:include])} : {}
         end
     
         # Used internally to load the member object in to an instance variable @#{model_name} (i.e. @post)
